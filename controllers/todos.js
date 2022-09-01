@@ -30,6 +30,7 @@ module.exports = {
         dueDate: req.body.dueDate,
         priority: req.body.priority,
         progress: req.body.progress,
+        privacy: req.body.privacy,
         userId: req.user.id,
       });
       console.log('Todo has been added!');

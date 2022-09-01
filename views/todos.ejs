@@ -221,6 +221,28 @@
             </select>
           </div>
 
+          
+          <!-- ? Privacy -->
+          <div>
+            <label for="privacy">Privacy:</label>
+            <select class="privacy" name="privacy" data-<%-todos[i]["_id"]%>="privacy">
+
+            <% const privacyArr = ["public", "private"]
+            for (let j = 0; j < privacyArr.length; j++) { 
+              if (todos[i].privacy === privacyArr[j]) {
+                const selected = "selected" %>
+
+              <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
+
+              <% } else { %>
+
+              <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
+
+            <% } %>
+            <% } %>
+            </select>
+          </div>
+
           <!-- ? User name -->
           <div>Assigned to: <%= user.userName %></div>
 
