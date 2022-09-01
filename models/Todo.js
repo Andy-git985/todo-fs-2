@@ -17,6 +17,10 @@ const TodoSchema = new Schema({
   progress: {
     type: String,
   },
+  privacy: {
+    type: String,
+    required: true,
+  },
   userId: {
     type: String,
     required: true,
