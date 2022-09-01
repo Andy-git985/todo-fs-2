@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Todo v2</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -130,6 +130,10 @@
 
       <!-- ? Sortable cards -->
       <div class="list grid">
+
+        
+
+        <!-- ? EJS todo fields -->
         <% for(let i = 0; i < todos.length; i++) {%>
         <div data-id=<%= todos[i]["_id"] %> class="flow card">
 
@@ -209,6 +213,9 @@
               <% } %>
             </select>
           </div>
+
+          <!-- ? User name -->
+          <div>Assigned by: <%= user.userName %></div>
 
           <div class="flex edit-btn">
             <div><button type="button" class="update-btn">Update</button></div>
