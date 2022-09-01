@@ -1,0 +1,82 @@
+h1 {
+  color: red;
+}
+.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+.not {
+  text-decoration: underline;
+}
+
+/* Mines */
+
+/* reset */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+.flex {
+  display: flex;
+  gap: 0.5em;
+}
+
+.title-field {
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.flow > *:not(last-child) {
+  margin-bottom: 0.5rem;
+}
+
+/* delete item message div */
+.msg {
+  align-items: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* basic card  */
+.card {
+  background: grey;
+  outline: 1px solid black;
+  border-radius: 10px;
+  margin: 1rem;
+  padding: 1rem;
+}
+
+.sort-btn > .card {
+  cursor: pointer;
+}
+
+select,
+button,
+.project-card {
+  cursor: pointer;
+}
+
+.container,
+.heading {
+  padding: 1rem;
+}
+
+/* individual fields in form */
+.formFields {
+  margin: 0.25em;
+}
+
+/* update delete buttons */
+.edit-btn {
+  margin-top: 2em;
+  justify-content: flex-end;
+}
