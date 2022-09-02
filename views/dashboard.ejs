@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo v2</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Todos</h1>
+    <ul>
+    <% todos.forEach( el => { %>
+            <li class='todoItem' data-id='<%=el._id%>'>
+                <span><%= el.title %></span>
+                <span class='<%= el.completed === true ? 'completed' : 'not'%>'><%= el.todo %></span>
+                <span class='del'> Delete </span>
+            </li>
+    <% }) %>    
+    </ul>
+
+    <h2><%= user.userName %> has <%= left %> things left to do.</h2>
+
+    <form action="/todos/createTodo" method='POST'>
+        <!-- <input type="text" placeholder="Enter Todo Item" name='todoItem'>
+        <input type="submit"> -->
+        <div class="formFields">
+          <label for="title">Title</label>
+          <input type="text" name="title" id="title" />
+        </div>
+        <div class="formFields">
+          <label for="description">Description</label>
+          <input type="text" name="description" id="description" />
+        </div>
+        <div class="formFields">
+          <label for="dueDate">Due Date</label>
+          <input type="date" name="dueDate" id="dueDate" />
+        </div>
+        <div class="formFields">
+          <label for="priority">Priority</label>
+          <select name="priority" id="priority">
+            <option value="">Select one</option>
+            <option data-index="0" value="low">Low</option>
+            <option data-index="1" value="medium">Medium</option>
+            <option data-index="2" value="high">High</option>
+            <option data-index="3" value="urgent">Urgent</option>
+          </select>
+        </div>
+        <div class="formFields">
+          <label for="progress">Progress</label>
+          <select name="progress" id="progress">
+            <option value="">Select one</option>
+            <option data-index="0" value="todo">To Do</option>
+            <option data-index="1" value="doing">Doing</option>
+            <option data-index="2" value="done">Done</option>
+          </select>
+        </div>
+        <div id="formProjectElem" class="formFields">
+          <label for="project">Project</label>
+          <select name="project" id="">
+            <option value="">Select one</option>
+            <% for(let i = 0; i < projects.length; i++) {%>
+            <option data-index="<%= i %>" value="<%= projects[i].title %>"><%= projects[i].title %></option>
+            <% } %>
+          </select>
+        </div>
+        <div class="formFields">
+          <label for="privacy">Privacy</label>
+          <select name="privacy" id="">
+            <option value="public">Public</option>
+            <option value="private" selected>Private</option>
+          </select>
+        </div>
+        <div class="formFields">
+          <button type="submit">Add to list</button>
+        </div>
+    </form>
+
+    <!-- ! Projects -->
+    <div class="projects">
+      <div class="heading">
+        <h2>Projects</h2>
+      </div>
+
+      <!-- ? Project cards -->
+      <div class="flex">
+        <a href="/">
+          <div class="card project-card">
+            <div class="project-btn">All</div>
+          </div>
+        </a>
+        <% for(let i = 0; i < projects.length; i++) {%>
+          <a href="<%=`todos/projects?project=${projects[i].title}`%>">
+            <div class="card">
+              <div class="project-btn"><%= projects[i].title %></div>
+            </div>
+          </a>
+        <% } %>
+
+        <!-- ? Add Project Form -->
+        <div class="card ">
+          <form action="todos/projects" method="post" id="add-project-form" class="hidden">
+            <label for="title">Add project</label>
+            <input type="text" name="title" id="id-project-input">
+            <button  type="button" id="cancel-btn">Cancel</button>
+            <button type="submit">Submit</button>
+          </form>
+          <div class="project-card" id="add-project">Add project</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ! All todo list todos -->
+    <div class="todos" id="todoList">
+
+      <div class="heading msg flex">
+        <div>
+          <h2>todos</h2>
+        </div>
+        
+        <div id="msg"></div>
+      </div>
+
+      <!-- ? Sorting buttons -->
+      <div class="flex sort-btn">
+
+        <div class="card">
+          <div class="sort" data-sort="dueDate">Sort by Due Date</div>
+        </div>
+        <div class="card">
+          <div class="sort" data-sort="priority">Sort by Priority</div>
+        </div>
+        <div class="card">
+          <div class="sort" data-sort="title">Sort by Title</div>
+        </div>
+      </div>
+
+      <!-- ? Sortable cards -->
+      <div class="list grid">
+
+        
+
+        <!-- ? EJS todo fields -->
+        <% for(let i = 0; i < todos.length; i++) {%>
+        <div data-id=<%= todos[i]["_id"] %> class="flow card">
+
+          <!-- ? Title -->
+          <div class="title-field flex">
+            <div class="title" data-<%-todos[i]["_id"]%>="title" contenteditable="true"><%= todos[i].title %></div>
+          </div>
+
+          <!-- ? Description -->
+          <div class="flex">
+            <div>Description:</div>
+            <div data-<%-todos[i]["_id"]%>="description" contenteditable="true"><%= todos[i].description %></div>
+          </div>
+
+          <!-- ? Due Date -->
+          <div>
+            <% if (todos[i].dueDate === null) { %>
+            <div class="dueDate hidden"></div>
+            <label for="dueDate">Due Date:</label>
+            <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="">
+            <%} else { %>
+            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %>"></div>
+            <label for="dueDate">Due Date:</label>
+            <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="<%= todos[i].dueDate.toISOString().slice(0, 10) %>">
+            <% } %>
+          </div>
+
+          <!-- ? Priority -->
+          <div>
+            <label for="priority">Priority:</label>
+            <select class="priority" name="priority" data-<%-todos[i]["_id"]%>="priority">
+
+            <% const priorityArr = ["low", "medium", "high", "urgent"]
+            for (let j = 0; j < priorityArr.length; j++) { 
+              if (todos[i].priority === priorityArr[j]) {
+                const selected = "selected" %>
+
+              <option value="<%= priorityArr[j] %>" <%=selected %>><%= priorityArr[j][0].toUpperCase() + priorityArr[j].slice(1) %></option>
+
+              <% } else { %>
+
+              <option value="<%= priorityArr[j] %>"><%= priorityArr[j][0].toUpperCase() + priorityArr[j].slice(1) %></option>
+
+            <% } %>
+            <% } %>
+            </select>
+          </div>
+
+          <!-- ? Progress -->
+          <div>
+            <label for="progress">Progress:</label>
+            <select name="progress" data-<%-todos[i]["_id"]%>="progress">
+            <% const progressArr = ["todo", "doing", "done"]
+            for (let j = 0; j < progressArr.length; j++) { 
+              if (todos[i].progress === progressArr[j]) {
+                const selected = "selected" %>
+              <option class="priority" value="<%= progressArr[j]%>" <%=selected %>><%= progressArr[j][0].toUpperCase() + progressArr[j].slice(1) %></option>
+              <% } else { %>
+              <option class="priority" value="<%= progressArr[j]%>"><%= progressArr[j][0].toUpperCase() + progressArr[j].slice(1) %></option>
+            <% } %>
+            <% } %>
+            </select>
+          </div>
+
+          <!-- ? Project -->
+          <div>
+            <label for="project">Project:</label>
+            <select name="project" data-<%-todos[i]["_id"]%>="project">
+              <option value="">Select one</option>
+              <% for(let j = 0; j < projects.length; j++) {%>
+              <% if (todos[i].project === projects[j].title) { 
+                const selected = "selected"%>
+              <option data-index="<%=j %>" value="<%= projects[j].title %>" <%=selected %>><%= projects[j].title %></option>
+              <%} else { %>
+              <option data-index="<%=j %>" value="<%= projects[j].title %>"><%= projects[j].title %></option>
+              <% } %>
+              <% } %>
+            </select>
+          </div>
+
+          
+          <!-- ? Privacy -->
+          <div>
+            <label for="privacy">Privacy:</label>
+            <select class="privacy" name="privacy" data-<%-todos[i]["_id"]%>="privacy">
+
+            <% const privacyArr = ["public", "private"]
+            for (let j = 0; j < privacyArr.length; j++) { 
+              if (todos[i].privacy === privacyArr[j]) {
+                const selected = "selected" %>
+
+              <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
+
+              <% } else { %>
+
+              <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
+
+            <% } %>
+            <% } %>
+            </select>
+          </div>
+
+          <!-- ? User name -->
+          <div>Assigned to: <%= user.userName %></div>
+
+          <div class="flex edit-btn">
+            <div><button type="button" class="update-btn">Update</button></div>
+            <div><button type="button" class="delete-btn">Delete</button></div>
+          </div>
+
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <a href="/logout">Logout</a>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
