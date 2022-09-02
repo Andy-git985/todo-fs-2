@@ -21,11 +21,12 @@
 
     <h2><%= user.userName %> has <%= left %> things left to do.</h2>
 
-    <div class="card" style="max-width: 75px">
-          <a href="/dashboard">Dashboard</a>
+    <div style="margin-bottom: 1.5rem">
+      <a href="/dashboard" class="card">Dashboard</a>
     </div>
 
-    <form action="/todos/createTodo" method='POST'>
+    <div>
+      <form action="/todos/createTodo" method='POST'>
         <!-- <input type="text" placeholder="Enter Todo Item" name='todoItem'>
         <input type="submit"> -->
         <div class="formFields">
@@ -78,7 +79,8 @@
         <div class="formFields">
           <button type="submit">Add to list</button>
         </div>
-    </form>
+      </form>
+    </div>
 
     <!-- ! Projects -->
     <div class="projects">
