@@ -245,25 +245,14 @@
 
           <!-- ! Public user assignment -->
           <div>
-            <!-- <div>todos user id =><%=todos[i]["_id"] %></div>
-            <div>experiment===========</div> -->
-
             <% for(let k = 0; k < users.length; k++) {%>
-              <!-- <div>testing=========</div>
-              <div><%= typeof todos[i].userId%></div>
-              <div><%= typeof String(users[k]["_id"])%></div>
-              <div>testing=========</div> -->
+
               <% if (todos[i].userId === String(users[k]["_id"])) { %>
               <div>Assigned to: <%= users[k].userName %></div>
-              <%} %>
               <% } %>
+
+            <% } %>
           </div>
-
-          <!-- <div data-id=<%= todos[i]["_id"] %> class="flow card"> -->
-
-
-
-
 
           <div class="flex edit-btn">
             <div><button type="button" class="update-btn">Update</button></div>
