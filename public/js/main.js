@@ -32,14 +32,49 @@ const events = (() => {
     });
   };
 
+  const deleteBtn = () => {
+    const deleteBtn = document.querySelectorAll('.delete-btn');
+    deleteBtn.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        serverRequest.deleteItem(getId(e.target));
+      });
+    });
+  };
+
   const init = () => {
     addProjectBtn();
+    deleteBtn();
   };
 
   return { init };
 })();
 
 events.init();
+
+const serverRequest = (() => {
+  const deleteItem = async (id) => {
+    const res = await fetch('todos/items', {
+      method: 'delete',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _id: id,
+      }),
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const msg = document.querySelector('#msg');
+      msg.innerHTML = json;
+      setTimeout(() => {
+        msg.remove();
+        window.location.reload(true);
+      }, 1000);
+    }
+  };
+
+  return {
+    deleteItem,
+  };
+})();
 
 Array.from(deleteBtn).forEach((el) => {
   el.addEventListener('click', deleteTodo);

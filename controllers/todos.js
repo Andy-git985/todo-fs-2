@@ -86,4 +86,13 @@ module.exports = {
       console.log(err);
     }
   },
+  // app.delete('/items', async (req, res) => {
+  deleteItem: async (req, res) => {
+    try {
+      await Todo.findByIdAndDelete(req.body);
+      res.json('Item deleted');
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

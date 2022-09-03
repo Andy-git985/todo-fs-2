@@ -12,5 +12,6 @@ router.put('/markComplete', todosController.markComplete);
 router.put('/markIncomplete', todosController.markIncomplete);
 
 router.delete('/deleteTodo', todosController.deleteTodo);
+router.delete('/items', todosController.deleteItem);
 
 module.exports = router;
