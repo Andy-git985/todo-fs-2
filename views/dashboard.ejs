@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Todos</h1>
+    <h1>DASHBOARD</h1>
     <ul>
     <% todos.forEach( el => { %>
             <li class='todoItem' data-id='<%=el._id%>'>
@@ -20,6 +20,10 @@
     </ul>
 
     <h2><%= user.userName %> has <%= left %> things left to do.</h2>
+
+    <div style="margin-bottom: 1.5rem">
+      <a href="/todos" class="card">Todos</a>
+    </div>
 
     <form action="/todos/createTodo" method='POST'>
         <!-- <input type="text" placeholder="Enter Todo Item" name='todoItem'>
@@ -232,13 +236,12 @@
               if (todos[i].privacy === privacyArr[j]) {
                 const selected = "selected" %>
 
-              <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
+                <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
 
               <% } else { %>
-
               <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
+              <% } %>
 
-            <% } %>
             <% } %>
             </select>
           </div>

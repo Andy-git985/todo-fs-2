@@ -22,9 +22,10 @@
     <h2><%= user.userName %> has <%= left %> things left to do.</h2>
 
     <div style="margin-bottom: 1.5rem">
-      <a href="/dashboard" class="card">Dashboard</a>
+      <a href="/dashboard" class="card">Public Dashboard</a>
     </div>
 
+    <!-- ! Main submission form -->
     <div>
       <form action="/todos/createTodo" method='POST'>
         <!-- <input type="text" placeholder="Enter Todo Item" name='todoItem'>
