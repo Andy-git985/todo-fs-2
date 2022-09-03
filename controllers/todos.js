@@ -95,4 +95,18 @@ module.exports = {
       console.error(error);
     }
   },
+  // ? Handles updates to item's fields
+  // app.put('/items', async (req, res) => {
+  updateItem: async (req, res) => {
+    try {
+      const id = await req.body.req['_id'];
+      const data = await req.body.req.data;
+      const search = await Todo.findById(id);
+      Object.assign(search, data);
+      await search.save();
+      res.json('Item updated');
+    } catch (error) {
+      console.error(error);
+    }
+  },
 };

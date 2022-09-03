@@ -41,9 +41,29 @@ const events = (() => {
     });
   };
 
+  // ? Updates todo list fields
+  const updateBtn = () => {
+    const updateBtn = document.querySelectorAll('.update-btn');
+    updateBtn.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const values = document.querySelectorAll(`[data-${getId(e.target)}]`);
+        const req = {};
+        req['_id'] = getId(e.target);
+        req.data = {};
+        Array.from(values).forEach(
+          (v) =>
+            (req.data[v.dataset[`${getId(e.target)}`]] =
+              v.value || v.textContent)
+        );
+        serverRequest.updateItem(req);
+      });
+    });
+  };
+
   const init = () => {
     addProjectBtn();
     deleteBtn();
+    updateBtn();
   };
 
   return { init };
@@ -71,8 +91,28 @@ const serverRequest = (() => {
     }
   };
 
+  const updateItem = async (req) => {
+    const res = await fetch('todos/items', {
+      method: 'put',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        req,
+      }),
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const msg = document.querySelector('#msg');
+      msg.innerHTML = json;
+      setTimeout(() => {
+        msg.remove();
+        window.location.reload(true);
+      }, 1000);
+    }
+  };
+
   return {
     deleteItem,
+    updateItem,
   };
 })();
 
