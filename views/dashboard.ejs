@@ -59,8 +59,8 @@
           <label for="project">Project</label>
           <select name="project" id="">
             <option value="">Select one</option>
-            <% for(let i = 0; i < projects.length; i++) {%>
-            <option data-index="<%= i %>" value="<%= projects[i].title %>"><%= projects[i].title %></option>
+            <% for(let i = 0; i < users.length; i++) {%>
+            <option data-index="<%= i %>" value="<%= users[i].title %>"><%= users[i].title %></option>
             <% } %>
           </select>
         </div>
@@ -76,10 +76,10 @@
         </div>
     </form>
 
-    <!-- ! Projects -->
-    <div class="projects">
+    <!-- ! users -->
+    <div class="users">
       <div class="heading">
-        <h2>Projects</h2>
+        <h2>users</h2>
       </div>
 
       <!-- ? Project cards -->
@@ -89,17 +89,17 @@
             <div class="project-btn">All</div>
           </div>
         </a>
-        <% for(let i = 0; i < projects.length; i++) {%>
-          <a href="<%=`todos/projects?project=${projects[i].title}`%>">
+        <% for(let i = 0; i < users.length; i++) {%>
+          <a href="<%=`todos/users?project=${users[i].title}`%>">
             <div class="card">
-              <div class="project-btn"><%= projects[i].title %></div>
+              <div class="project-btn"><%= users[i].title %></div>
             </div>
           </a>
         <% } %>
 
         <!-- ? Add Project Form -->
         <div class="card ">
-          <form action="todos/projects" method="post" id="add-project-form" class="hidden">
+          <form action="todos/users" method="post" id="add-project-form" class="hidden">
             <label for="title">Add project</label>
             <input type="text" name="title" id="id-project-input">
             <button  type="button" id="cancel-btn">Cancel</button>
@@ -210,12 +210,12 @@
             <label for="project">Project:</label>
             <select name="project" data-<%-todos[i]["_id"]%>="project">
               <option value="">Select one</option>
-              <% for(let j = 0; j < projects.length; j++) {%>
-              <% if (todos[i].project === projects[j].title) { 
+              <% for(let j = 0; j < users.length; j++) {%>
+              <% if (todos[i].project === users[j].title) { 
                 const selected = "selected"%>
-              <option data-index="<%=j %>" value="<%= projects[j].title %>" <%=selected %>><%= projects[j].title %></option>
+              <option data-index="<%=j %>" value="<%= users[j].title %>" <%=selected %>><%= users[j].title %></option>
               <%} else { %>
-              <option data-index="<%=j %>" value="<%= projects[j].title %>"><%= projects[j].title %></option>
+              <option data-index="<%=j %>" value="<%= users[j].title %>"><%= users[j].title %></option>
               <% } %>
               <% } %>
             </select>
@@ -243,8 +243,27 @@
             </select>
           </div>
 
-          <!-- ? User name -->
-          <div>Assigned to: <%= user.userName %></div>
+          <!-- ! Public user assignment -->
+          <div>
+            <!-- <div>todos user id =><%=todos[i]["_id"] %></div>
+            <div>experiment===========</div> -->
+
+            <% for(let k = 0; k < users.length; k++) {%>
+              <!-- <div>testing=========</div>
+              <div><%= typeof todos[i].userId%></div>
+              <div><%= typeof String(users[k]["_id"])%></div>
+              <div>testing=========</div> -->
+              <% if (todos[i].userId === String(users[k]["_id"])) { %>
+              <div>Assigned to: <%= users[k].userName %></div>
+              <%} %>
+              <% } %>
+          </div>
+
+          <!-- <div data-id=<%= todos[i]["_id"] %> class="flow card"> -->
+
+
+
+
 
           <div class="flex edit-btn">
             <div><button type="button" class="update-btn">Update</button></div>

@@ -15,11 +15,13 @@ module.exports = {
         userId: req.user.id,
         completed: false,
       });
-      res.render('todos.ejs', {
+      const users = await User.find();
+      res.render('dashboard.ejs', {
         todos: todoItems,
         projects: projectItems,
         left: itemsLeft,
         user: req.user,
+        users: users,
       });
     } catch (err) {
       console.log(err);
