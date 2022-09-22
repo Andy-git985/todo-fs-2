@@ -16,6 +16,8 @@ module.exports = {
         completed: false,
       });
       const users = await User.find();
+      console.log(users);
+      console.log('users found');
       res.render('dashboard.ejs', {
         todos: todoItems,
         projects: projectItems,

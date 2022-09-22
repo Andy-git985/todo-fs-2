@@ -249,8 +249,7 @@
           <!-- ! Public user assignment -->
           <div>
             <% for(let k = 0; k < users.length; k++) {%>
-
-              <% if (todos[i].userId === String(users[k]["_id"])) { %>
+              <% if (String(todos[i].user) === String(users[k]["_id"])) { %>
               <div>Assigned to: <%= users[k].userName %></div>
               <% } %>
 
