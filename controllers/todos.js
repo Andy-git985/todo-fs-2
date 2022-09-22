@@ -5,7 +5,7 @@ module.exports = {
   getTodos: async (req, res) => {
     console.log(req.user);
     try {
-      const todoItems = await Todo.find({ userId: req.user.id });
+      const todoItems = await Todo.find({ user: req.user });
       const projectItems = await Project.find();
       const itemsLeft = await Todo.countDocuments({
         userId: req.user.id,
@@ -31,7 +31,7 @@ module.exports = {
         priority: req.body.priority,
         progress: req.body.progress,
         privacy: req.body.privacy,
-        userId: req.user.id,
+        user: req.user,
       });
       console.log('Todo has been added!');
       res.redirect('/todos');
@@ -41,7 +41,11 @@ module.exports = {
   },
   createProject: async (req, res) => {
     try {
-      const newProject = await new Project(req.body);
+      const newProject = await Project.create({
+        title: req.body.title,
+        privacy: req.body.privacy,
+        user: req.user,
+      });
       await newProject.save();
       res.redirect('/todos');
     } catch (error) {

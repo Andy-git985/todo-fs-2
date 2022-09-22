@@ -1,0 +1,41 @@
+<div class="projects">
+  <div class="heading">
+    <h2>Projects</h2>
+  </div>
+
+  <!-- ? Project cards -->
+  <div class="flex">
+    <a href="/">
+      <div class="card project-card">
+        <div class="project-btn">All</div>
+      </div>
+    </a>
+    <% for(let i = 0; i < projects.length; i++) {%>
+    <a href="<%=`todos/projects?project=${projects[i].title}`%>">
+      <div class="card">
+        <div class="project-btn"><%= projects[i].title %></div>
+      </div>
+    </a>
+    <% } %>
+
+    <!-- ? Add Project Form -->
+    <div class="card">
+      <form
+        action="todos/projects"
+        method="post"
+        id="add-project-form"
+        class="hidden"
+      >
+        <label for="title">Add project</label>
+        <input type="text" name="title" id="id-project-input" />
+        <select name="privacy" id="">
+          <option value="private" selected>Private</option>
+          <option value="public">Public</option>
+        </select>
+        <button type="button" id="cancel-btn">Cancel</button>
+        <button type="submit">Submit</button>
+      </form>
+      <div class="project-card" id="add-project">Add project</div>
+    </div>
+  </div>
+</div>
