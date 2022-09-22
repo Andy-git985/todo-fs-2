@@ -133,13 +133,28 @@
             <select name="project" data-<%-todos[i]["_id"]%>="project">
               <option value="">Select one</option>
               <% for(let j = 0; j < projects.length; j++) {%>
-              <% if (todos[i].project === projects[j].title) { 
+              <% if (String(todos[i].project) === String(projects[j]._id)) { 
                 const selected = "selected"%>
               <option data-index="<%=j %>" value="<%= projects[j].title %>" <%=selected %>><%= projects[j].title %></option>
               <%} else { %>
               <option data-index="<%=j %>" value="<%= projects[j].title %>"><%= projects[j].title %></option>
               <% } %>
               <% } %>
+            </select>
+          </div>
+
+          <div>
+            <label for="project">Project:</label>
+            <select name="project" data-<%-todos[i]["_id"]%>="project">
+              <option value="">Select one</option>
+              <% projects.forEach((e,j) =>{ %>
+                <% if (String(todos[i].project) === String(e._id)) { %>
+                <% const selected= "selected" %>
+                  <option data-index="<%=j %>" value="<%= e.title %>" <%=selected %>><%= e.title %></option>
+                  <% }  else {%>
+                  <option data-index="<%=j %>" value="<%= e.title %>"><%= e.title %></option>
+                <% } %>
+              <% }) %>
             </select>
           </div>
 

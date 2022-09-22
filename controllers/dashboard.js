@@ -10,17 +10,17 @@ module.exports = {
         // userId: req.user.id,
         privacy: 'public',
       });
-      const projectItems = await Project.find();
+      const projects = await Project.find({
+        privacy: 'public',
+      });
       const itemsLeft = await Todo.countDocuments({
         userId: req.user.id,
         completed: false,
       });
       const users = await User.find();
-      console.log(users);
-      console.log('users found');
       res.render('dashboard.ejs', {
         todos: todoItems,
-        projects: projectItems,
+        projects: projects,
         left: itemsLeft,
         user: req.user,
         users: users,

@@ -6,14 +6,16 @@ module.exports = {
     console.log(req.user);
     try {
       const todoItems = await Todo.find({ user: req.user });
-      const projectItems = await Project.find();
+      const projects = await Project.find({
+        $or: [{ user: req.user }, { privacy: 'public' }],
+      });
       const itemsLeft = await Todo.countDocuments({
         userId: req.user.id,
         completed: false,
       });
       res.render('todos.ejs', {
         todos: todoItems,
-        projects: projectItems,
+        projects: projects,
         left: itemsLeft,
         user: req.user,
       });
@@ -24,12 +26,14 @@ module.exports = {
   createTodo: async (req, res) => {
     console.log(req.body);
     try {
+      const project = await Project.findOne({ title: req.body.project });
       await Todo.create({
         title: req.body.title,
         description: req.body.description,
         dueDate: req.body.dueDate,
         priority: req.body.priority,
         progress: req.body.progress,
+        project: project,
         privacy: req.body.privacy,
         user: req.user,
       });
