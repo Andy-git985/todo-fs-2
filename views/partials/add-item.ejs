@@ -1,0 +1,58 @@
+<div>
+  <form action="/todos/createTodo" method="POST">
+    <!-- <input type="text" placeholder="Enter Todo Item" name='todoItem'>
+        <input type="submit"> -->
+    <div class="formFields">
+      <label for="title">Title</label>
+      <input type="text" name="title" id="title" />
+    </div>
+    <div class="formFields">
+      <label for="description">Description</label>
+      <input type="text" name="description" id="description" />
+    </div>
+    <div class="formFields">
+      <label for="dueDate">Due Date</label>
+      <input type="date" name="dueDate" id="dueDate" />
+    </div>
+    <div class="formFields">
+      <label for="priority">Priority</label>
+      <select name="priority" id="priority">
+        <option value="">Select one</option>
+        <option data-index="0" value="low">Low</option>
+        <option data-index="1" value="medium">Medium</option>
+        <option data-index="2" value="high">High</option>
+        <option data-index="3" value="urgent">Urgent</option>
+      </select>
+    </div>
+    <div class="formFields">
+      <label for="progress">Progress</label>
+      <select name="progress" id="progress">
+        <option value="">Select one</option>
+        <option data-index="0" value="todo">To Do</option>
+        <option data-index="1" value="doing">Doing</option>
+        <option data-index="2" value="done">Done</option>
+      </select>
+    </div>
+    <div id="formProjectElem" class="formFields">
+      <label for="project">Project</label>
+      <select name="project" id="">
+        <option value="">Select one</option>
+        <% projects.forEach((e, i) => { %>
+        <option data-index="<%= i %>" value="<%= e.title %>">
+          <%= e.title %>
+        </option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="formFields">
+      <label for="privacy">Privacy</label>
+      <select name="privacy" id="">
+        <option value="public">Public</option>
+        <option value="private" selected>Private</option>
+      </select>
+    </div>
+    <div class="formFields">
+      <button type="submit">Add to list</button>
+    </div>
+  </form>
+</div>
