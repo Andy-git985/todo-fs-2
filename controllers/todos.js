@@ -1,5 +1,6 @@
 const Todo = require('../models/Todo');
 const Project = require('../models/Project');
+const User = require('../models/User');
 
 module.exports = {
   getTodos: async (req, res) => {
@@ -8,10 +9,12 @@ module.exports = {
       const projects = await Project.find({
         $or: [{ user: req.user }, { privacy: 'public' }],
       });
+      const users = await User.find();
       res.render('todos.ejs', {
         todos: todos,
         projects: projects,
         user: req.user,
+        users: users,
       });
     } catch (err) {
       console.log(err);
