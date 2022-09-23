@@ -19,7 +19,6 @@ module.exports = {
   },
   filterByProject: async (req, res) => {
     try {
-      console.log(req.query.project);
       const projectId = await Project.findOne({ title: req.query.project });
       const todos = await Todo.find({ project: String(projectId._id) });
       const projects = await Project.find({

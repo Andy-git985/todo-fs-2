@@ -130,7 +130,7 @@
       </div>          
 
       <!-- ? User name -->
-      <div>Assigned to: <%= user.userName %></div>
+      <div>Assigned to: <%= users.find(u => String(u._id) === String(e.user)).userName %></div>
 
 
       <div class="flex edit-btn">
@@ -138,10 +138,9 @@
           <button type="submit">Update Working</button>
         </form>
         <div><button type="button" class="update-btn">Update</button></div>
-        <div><button type="button" class="delete-btn">Delete</button></div>
-        
+
         <form action="/todos/deleteItem/<%= e["_id"] %>?_method=DELETE" method="POST">
-          <button type="submit">Delete New</button>
+          <button type="submit">Delete</button>
         </form>
       </div>
                 

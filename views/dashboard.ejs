@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo v2</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <h1>DASHBOARD</h1>
@@ -23,160 +23,11 @@
         <h2>users</h2>
       </div>
 
-   <!-- ! Projects -->
-    <%- include('partials/add-project') -%>
+    <!-- ! Projects -->
+    <%- include('partials/dashboard-project') -%>
 
-    <!-- ! All todo list todos -->
-    <div class="todos" id="todoList">
-
-      <div class="heading msg flex">
-        <div>
-          <h2>todos</h2>
-        </div>
-        
-        <div id="msg"></div>
-      </div>
-
-      <!-- ? Sorting buttons -->
-      <div class="flex sort-btn">
-
-        <div class="card">
-          <div class="sort" data-sort="dueDate">Sort by Due Date</div>
-        </div>
-        <div class="card">
-          <div class="sort" data-sort="priority">Sort by Priority</div>
-        </div>
-        <div class="card">
-          <div class="sort" data-sort="title">Sort by Title</div>
-        </div>
-      </div>
-
-      <!-- ? Sortable cards -->
-      <div class="list grid">
-
-        
-
-        <!-- ? EJS todo fields -->
-        <% for(let i = 0; i < todos.length; i++) {%>
-        <div data-id=<%= todos[i]["_id"] %> class="flow card">
-
-          <!-- ? Title -->
-          <div class="title-field flex">
-            <div class="title" data-<%-todos[i]["_id"]%>="title" contenteditable="true"><%= todos[i].title %></div>
-          </div>
-
-          <!-- ? Description -->
-          <div class="flex">
-            <div>Description:</div>
-            <div data-<%-todos[i]["_id"]%>="description" contenteditable="true"><%= todos[i].description %></div>
-          </div>
-
-          <!-- ? Due Date -->
-          <div>
-            <% if (todos[i].dueDate === null) { %>
-            <div class="dueDate hidden"></div>
-            <label for="dueDate">Due Date:</label>
-            <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="">
-            <%} else { %>
-            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %>"></div>
-            <label for="dueDate">Due Date:</label>
-            <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="<%= todos[i].dueDate.toISOString().slice(0, 10) %>">
-            <% } %>
-          </div>
-
-          <!-- ? Priority -->
-          <div>
-            <label for="priority">Priority:</label>
-            <select class="priority" name="priority" data-<%-todos[i]["_id"]%>="priority">
-
-            <% const priorityArr = ["low", "medium", "high", "urgent"]
-            for (let j = 0; j < priorityArr.length; j++) { 
-              if (todos[i].priority === priorityArr[j]) {
-                const selected = "selected" %>
-
-              <option value="<%= priorityArr[j] %>" <%=selected %>><%= priorityArr[j][0].toUpperCase() + priorityArr[j].slice(1) %></option>
-
-              <% } else { %>
-
-              <option value="<%= priorityArr[j] %>"><%= priorityArr[j][0].toUpperCase() + priorityArr[j].slice(1) %></option>
-
-            <% } %>
-            <% } %>
-            </select>
-          </div>
-
-          <!-- ? Progress -->
-          <div>
-            <label for="progress">Progress:</label>
-            <select name="progress" data-<%-todos[i]["_id"]%>="progress">
-            <% const progressArr = ["todo", "doing", "done"]
-            for (let j = 0; j < progressArr.length; j++) { 
-              if (todos[i].progress === progressArr[j]) {
-                const selected = "selected" %>
-              <option class="priority" value="<%= progressArr[j]%>" <%=selected %>><%= progressArr[j][0].toUpperCase() + progressArr[j].slice(1) %></option>
-              <% } else { %>
-              <option class="priority" value="<%= progressArr[j]%>"><%= progressArr[j][0].toUpperCase() + progressArr[j].slice(1) %></option>
-            <% } %>
-            <% } %>
-            </select>
-          </div>
-
-          <!-- ? Project -->
-          <div>
-            <label for="project">Project:</label>
-            <select name="project" data-<%-todos[i]["_id"]%>="project">
-              <option value="">Select one</option>
-              <% for(let j = 0; j < users.length; j++) {%>
-              <% if (todos[i].project === users[j].title) { 
-                const selected = "selected"%>
-              <option data-index="<%=j %>" value="<%= users[j].title %>" <%=selected %>><%= users[j].title %></option>
-              <%} else { %>
-              <option data-index="<%=j %>" value="<%= users[j].title %>"><%= users[j].title %></option>
-              <% } %>
-              <% } %>
-            </select>
-          </div>
-
-          
-          <!-- ? Privacy -->
-          <div>
-            <label for="privacy">Privacy:</label>
-            <select class="privacy" name="privacy" data-<%-todos[i]["_id"]%>="privacy">
-
-            <% const privacyArr = ["public", "private"]
-            for (let j = 0; j < privacyArr.length; j++) { 
-              if (todos[i].privacy === privacyArr[j]) {
-                const selected = "selected" %>
-
-                <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
-
-              <% } else { %>
-              <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
-              <% } %>
-
-            <% } %>
-            </select>
-          </div>
-
-          <!-- ! Public user assignment -->
-          <div>
-            <% for(let k = 0; k < users.length; k++) {%>
-              <% if (String(todos[i].user) === String(users[k]["_id"])) { %>
-              <div>Assigned to: <%= users[k].userName %></div>
-              <% } %>
-
-            <% } %>
-          </div>
-
-          <div class="flex edit-btn">
-            <div><button type="button" class="update-btn">Update</button></div>
-            <div><button type="button" class="delete-btn">Delete</button></div>
-          </div>
-
-        </div>
-        <% } %>
-      </div>
-    </div>
+    <!-- ! Main cards -->
+    <%- include('partials/todos-card') -%>
 
     <a href="/logout">Logout</a>
 
