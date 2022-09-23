@@ -15,7 +15,9 @@ router.delete('/deleteTodo', todosController.deleteTodo);
 
 // my implementation
 router.put('/items', todosController.updateItem);
-router.delete('/items', todosController.deleteItem);
+// router.delete('/items', todosController.deleteItem);
 router.get('/projects', todosController.filterByProject);
+router.put('/updateItem/:id', todosController.updateItem);
+router.delete('/deleteItem/:id', todosController.deleteItem);
 
 module.exports = router;

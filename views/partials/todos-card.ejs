@@ -1,0 +1,158 @@
+<!-- ! All todo list todos -->
+<div class="todos" id="todoList">
+  <div class="heading msg flex">
+    <div>
+      <h2>todos</h2>
+    </div>
+
+    <div id="msg"></div>
+  </div>
+
+  <!-- ? Sorting buttons -->
+  <div class="flex sort-btn">
+    <div class="card">
+      <div class="sort" data-sort="dueDate">Sort by Due Date</div>
+    </div>
+    <div class="card">
+      <div class="sort" data-sort="priority">Sort by Priority</div>
+    </div>
+    <div class="card">
+      <div class="sort" data-sort="title">Sort by Title</div>
+    </div>
+  </div>
+
+  <!-- ? Sortable cards -->
+  <div class="list grid">
+
+    <!-- ? EJS todo fields -->
+    <% todos.forEach((e,i) => { %>
+
+    <!-- ? Individiual card data -->
+    <div data-id=<%= e["_id"] %> class="flow card">
+
+      <!-- ? Title -->
+      <div class="title-field flex">
+        <div class="title" data-<%- e["_id"] %>="title" contenteditable="true"><%= e.title %></div>
+      </div>
+
+      <!-- ? Description -->
+      <div class="flex">
+        <div>Description:</div>
+        <div data-<%- e["_id"] %>="description" contenteditable="true"><%= e.description %></div>
+      </div>
+
+      <!-- ? Due Date -->
+      <div>
+        <% if (e.dueDate === null) { %>
+        <div class="dueDate hidden"></div>
+        <label for="dueDate">Due Date:</label>
+        <input type="date" name="dueDate" class="dueDate" data-<%- e["_id"]%>="dueDate" value="">
+
+        <%} else { %>
+        <div class="dueDate hidden"><%= e.dueDate.toISOString().slice(0, 10) %></div>
+        <label for="dueDate">Due Date:</label>
+        <input type="date" name="dueDate" class="dueDate" data-<%-e["_id"]%>="dueDate" value="<%= e.dueDate.toISOString().slice(0, 10) %>">
+        <% } %>
+      </div>
+
+      <!-- ? Priority -->
+      <div>
+        <label for="priority">Priority:</label>
+        <select class="priority" name="priority" data-<%-e["_id"]%>="priority">
+
+        <% const priorityArr = ["low", "medium", "high", "urgent"]
+        priorityArr.forEach((p) => { %>
+          <% if (e.priority === p) { 
+            const selected = "selected" %>
+          <option value="<%= p %>" <%=selected %>><%= p[0].toUpperCase() + p.slice(1) %></option>
+
+          <% } else { %>
+          <option value="<%= p %>"><%= p[0].toUpperCase() + p.slice(1) %></option>
+
+        <% } %>
+        <% }) %>
+        </select>
+      </div>
+
+      <!-- ? Progress -->
+      <div>
+        <label for="progress">Progress:</label>
+        <select name="progress" data-<%-e["_id"]%>="progress">
+          
+        <% const progressArr = ["todo", "doing", "done"]
+        progressArr.forEach((p) => { %>
+          <% if (e.progress === p) {
+            const selected = "selected" %>
+          <option class="priority" value="<%= p%>" <%=selected %>><%= p[0].toUpperCase() + p.slice(1) %></option>
+
+          <% } else { %>
+          <option class="priority" value="<%= p%>"><%= p[0].toUpperCase() + p.slice(1) %></option>
+        <% } %>
+        <% }) %>
+        </select>
+      </div>
+      
+      <!-- ? Project -->
+      <div>
+        <label for="project">Project:</label>
+        <select name="project" data-<%-e["_id"]%>="project">
+          <option value="">Select one</option>
+
+          <% projects.forEach((p) =>{ %>
+            <% if (String(e.project) === String(p._id)) { %>
+            <% const selected= "selected" %>
+              <option value="<%= p.title %>" <%=selected %>><%= p.title %></option>
+
+              <% }  else {%>
+              <option value="<%= p.title %>"><%= p.title %></option>
+            <% } %>
+          <% }) %>
+        </select>
+      </div>        
+      
+      <!-- ? Privacy -->
+      <div>
+        <label for="privacy">Privacy:</label>
+        <select class="privacy" name="privacy" data-<%-e["_id"]%>="privacy">
+
+        <% const privacyArr = ["public", "private"]
+        privacyArr.forEach((p) => { %>
+          <% if (e.privacy === p) {
+            const selected = "selected" %>
+
+          <option value="<%= p %>" <%=selected %>><%= p[0].toUpperCase() + p.slice(1) %></option>
+
+          <% } else { %>
+          <option value="<%= p %>"><%= p[0].toUpperCase() + p.slice(1)%></option>
+        <% } %>
+        <% }) %>
+        </select>
+      </div>          
+
+      <!-- ? User name -->
+      <div>Assigned to: <%= user.userName %></div>
+
+
+      <div class="flex edit-btn">
+        <form action="/todos/updateItem/<%= todos[i]["_id"] %>?_method=PUT" method="POST">
+          <button type="submit">Update Working</button>
+        </form>
+        <div><button type="button" class="update-btn">Update</button></div>
+        <div><button type="button" class="delete-btn">Delete</button></div>
+        
+        <form action="/todos/deleteItem/<%= e["_id"] %>?_method=DELETE" method="POST">
+          <button type="submit">Delete New</button>
+        </form>
+      </div>
+                
+    <!-- ? End of individiual card data -->
+    </div>
+
+    <!-- ? End of EJS todo fields -->
+    <% }) %>
+
+  <!-- ? End of sortable cards -->
+  </div>
+
+<!-- ! End of todo list todos -->
+</div>

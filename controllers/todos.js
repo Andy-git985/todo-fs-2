@@ -108,8 +108,11 @@ module.exports = {
   // app.delete('/items', async (req, res) => {
   deleteItem: async (req, res) => {
     try {
-      await Todo.findByIdAndDelete(req.body);
-      res.json('Item deleted');
+      console.log('test');
+      console.log(req.params.id);
+      await Todo.findByIdAndDelete({ _id: req.params.id });
+      console.log('Item deleted');
+      res.redirect('/todos');
     } catch (error) {
       console.error(error);
     }
@@ -118,12 +121,13 @@ module.exports = {
   // app.put('/items', async (req, res) => {
   updateItem: async (req, res) => {
     try {
-      const id = await req.body.req['_id'];
-      const data = await req.body.req.data;
-      const search = await Todo.findById(id);
-      Object.assign(search, data);
-      await search.save();
-      res.json('Item updated');
+      console.log(req.params.id);
+      // const id = await req.body.req['_id'];
+      // const data = await req.body.req.data;
+      // const search = await Todo.findById(id);
+      // Object.assign(search, data);
+      // await search.save();
+      // res.json('Item updated');
     } catch (error) {
       console.error(error);
     }

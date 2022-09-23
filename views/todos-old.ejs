@@ -5,26 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo v2</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-    <h1>DASHBOARD</h1>
+    <h1>Todos</h1>
 
     <div style="margin-bottom: 1.5rem">
-      <a href="/todos" class="card">Todos</a>
+      <a href="/dashboard" class="card">Public Dashboard</a>
     </div>
 
     <!-- ! Main submission form -->
     <%- include('partials/add-item') -%>
 
-    <!-- ! users -->
-    <div class="users">
-      <div class="heading">
-        <h2>users</h2>
-      </div>
-
-   <!-- ! Projects -->
+    <!-- ! Projects -->
     <%- include('partials/add-project') -%>
+
 
     <!-- ! All todo list todos -->
     <div class="todos" id="todoList">
@@ -54,8 +49,6 @@
       <!-- ? Sortable cards -->
       <div class="list grid">
 
-        
-
         <!-- ? EJS todo fields -->
         <% for(let i = 0; i < todos.length; i++) {%>
         <div data-id=<%= todos[i]["_id"] %> class="flow card">
@@ -78,7 +71,7 @@
             <label for="dueDate">Due Date:</label>
             <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="">
             <%} else { %>
-            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %>"></div>
+            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %></div>
             <label for="dueDate">Due Date:</label>
             <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="<%= todos[i].dueDate.toISOString().slice(0, 10) %>">
             <% } %>
@@ -126,14 +119,29 @@
             <label for="project">Project:</label>
             <select name="project" data-<%-todos[i]["_id"]%>="project">
               <option value="">Select one</option>
-              <% for(let j = 0; j < users.length; j++) {%>
-              <% if (todos[i].project === users[j].title) { 
+              <% for(let j = 0; j < projects.length; j++) {%>
+              <% if (String(todos[i].project) === String(projects[j]._id)) { 
                 const selected = "selected"%>
-              <option data-index="<%=j %>" value="<%= users[j].title %>" <%=selected %>><%= users[j].title %></option>
+              <option data-index="<%=j %>" value="<%= projects[j].title %>" <%=selected %>><%= projects[j].title %></option>
               <%} else { %>
-              <option data-index="<%=j %>" value="<%= users[j].title %>"><%= users[j].title %></option>
+              <option data-index="<%=j %>" value="<%= projects[j].title %>"><%= projects[j].title %></option>
               <% } %>
               <% } %>
+            </select>
+          </div>
+
+          <div>
+            <label for="project">Project:</label>
+            <select name="project" data-<%-todos[i]["_id"]%>="project">
+              <option value="">Select one</option>
+              <% projects.forEach((e,j) =>{ %>
+                <% if (String(todos[i].project) === String(e._id)) { %>
+                <% const selected= "selected" %>
+                  <option data-index="<%=j %>" value="<%= e.title %>" <%=selected %>><%= e.title %></option>
+                  <% }  else {%>
+                  <option data-index="<%=j %>" value="<%= e.title %>"><%= e.title %></option>
+                <% } %>
+              <% }) %>
             </select>
           </div>
 
@@ -148,27 +156,24 @@
               if (todos[i].privacy === privacyArr[j]) {
                 const selected = "selected" %>
 
-                <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
+              <option value="<%= privacyArr[j] %>" <%=selected %>><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1) %></option>
 
               <% } else { %>
-              <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
-              <% } %>
 
+              <option value="<%= privacyArr[j] %>"><%= privacyArr[j][0].toUpperCase() + privacyArr[j].slice(1)%></option>
+
+            <% } %>
             <% } %>
             </select>
           </div>
 
-          <!-- ! Public user assignment -->
-          <div>
-            <% for(let k = 0; k < users.length; k++) {%>
-              <% if (String(todos[i].user) === String(users[k]["_id"])) { %>
-              <div>Assigned to: <%= users[k].userName %></div>
-              <% } %>
-
-            <% } %>
-          </div>
+          <!-- ? User name -->
+          <div>Assigned to: <%= user.userName %></div>
 
           <div class="flex edit-btn">
+            <form action="/todos/updateItem/<%= todos[i]["_id"] %>?_method=PUT" method="POST">
+              <button type="submit">Update Working</button>
+            </form>
             <div><button type="button" class="update-btn">Update</button></div>
             <div><button type="button" class="delete-btn">Delete</button></div>
           </div>
