@@ -3,24 +3,35 @@ const Project = require('../models/Project');
 
 module.exports = {
   getTodos: async (req, res) => {
-    console.log(req.user);
     try {
-      const todoItems = await Todo.find({ user: req.user });
+      const todos = await Todo.find({ user: req.user });
       const projects = await Project.find({
         $or: [{ user: req.user }, { privacy: 'public' }],
       });
-      const itemsLeft = await Todo.countDocuments({
-        userId: req.user.id,
-        completed: false,
-      });
       res.render('todos.ejs', {
-        todos: todoItems,
+        todos: todos,
         projects: projects,
-        left: itemsLeft,
         user: req.user,
       });
     } catch (err) {
       console.log(err);
+    }
+  },
+  filterByProject: async (req, res) => {
+    try {
+      console.log(req.query.project);
+      const projectId = await Project.findOne({ title: req.query.project });
+      const todos = await Todo.find({ project: String(projectId._id) });
+      const projects = await Project.find({
+        $or: [{ user: req.user }, { privacy: 'public' }],
+      });
+      res.render('todos.ejs', {
+        todos: todos,
+        projects: projects,
+        user: req.user,
+      });
+    } catch (error) {
+      console.error(error);
     }
   },
   createTodo: async (req, res) => {

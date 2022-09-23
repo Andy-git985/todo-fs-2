@@ -5,21 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo v2</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
     <h1>Todos</h1>
-    <ul>
-    <% todos.forEach( el => { %>
-            <li class='todoItem' data-id='<%=el._id%>'>
-                <span><%= el.title %></span>
-                <span class='<%= el.completed === true ? 'completed' : 'not'%>'><%= el.todo %></span>
-                <span class='del'> Delete </span>
-            </li>
-    <% }) %>    
-    </ul>
-
-    <h2><%= user.userName %> has <%= left %> things left to do.</h2>
 
     <div style="margin-bottom: 1.5rem">
       <a href="/dashboard" class="card">Public Dashboard</a>
@@ -60,8 +49,6 @@
       <!-- ? Sortable cards -->
       <div class="list grid">
 
-        
-
         <!-- ? EJS todo fields -->
         <% for(let i = 0; i < todos.length; i++) {%>
         <div data-id=<%= todos[i]["_id"] %> class="flow card">
@@ -84,7 +71,7 @@
             <label for="dueDate">Due Date:</label>
             <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="">
             <%} else { %>
-            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %>"></div>
+            <div class="dueDate hidden"><%= todos[i].dueDate.toISOString().slice(0, 10) %></div>
             <label for="dueDate">Due Date:</label>
             <input type="date" name="dueDate" class="dueDate" data-<%-todos[i]["_id"]%>="dueDate" value="<%= todos[i].dueDate.toISOString().slice(0, 10) %>">
             <% } %>
